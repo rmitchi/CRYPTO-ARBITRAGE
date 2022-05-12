@@ -1,0 +1,25 @@
+{
+	"papertrading":true,
+	"refresh_rate":0.1,
+	"save_tick_data":false,
+	"markets":
+	{
+		"SPOT":
+		{
+			"BINANCE":"VT_STREAMER_BINANCE",
+			"FTX":"VT_STREAMER_FTX",
+			"HUOBI":"VT_STREAMER_HUOBI"
+		},
+		"FUTURES":
+		{
+			"BINANCE":"VT_STREAMER_BINANCE_FUTURES",
+			"FTX":"VT_STREAMER_FTX_FUTURES",
+			"HUOBI":"VT_STREAMER_HUOBI_FUTURES"
+		}
+	},
+	"strategy":"VT_ARB_1",
+	"watchlist":
+	[
+		"BTC_USDT"
+	]
+}
