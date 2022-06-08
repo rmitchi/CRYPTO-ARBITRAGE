@@ -4,7 +4,7 @@
 Enums
 """
 
-class KEY:
+class APP_KEY:
 
 	DUMMY = 'dummy'
 	
@@ -16,6 +16,18 @@ class KEY:
 	MARKETS = "markets"
 	EXCHANGES = 'exchanges'
 	PLUGINS = 'plugins'
+
+class LOG_TYPE:
+
+	STARTED = "STARTED"
+	STOPPED = "STOPPED"
+	INFO = "INFO"
+	SCHEDULE = "SCHEDULE"
+	SUBSCRIBED = "SUBSCRIBED"
+	SUCCESS = "SUCCESS"
+	UPDATED = "UPDATED"
+	TERMINAL = "TERMINAL"
+	ERROR = "ERROR"
 
 class EXCHANGE:
 

@@ -1,0 +1,13 @@
+# internal plugins init
+
+# NOTE Data streamers
+from .data_streamer_binance_spot import BinanceDataStreamerSpot
+from .data_streamer_binance_futures import BinanceDataStreamerFutures
+from .data_streamer_ftx_spot import FTXDataStreamerSpot
+from .data_streamer_ftx_futures import FTXDataStreamerFutures
+from .data_streamer_huobi_spot import HuobiDataStreamerSpot
+from .data_streamer_huobi_futures import HuobiDataStreamerFutures
+from .data_streamer_kraken_spot import KrakenDataStreamerSpot
+from .data_streamer_kraken_futures import KrakenDataStreamerFutures
+from .data_streamer_kucoin_spot import KucoinDataStreamerSpot
+from .data_streamer_kucoin_futures import KucoinDataStreamerFutures

@@ -6,7 +6,7 @@ Stream Manager
 
 # Importing dependent libraries
 from ..core.interfaces import IDataStreaming
-from ..utils.enums import STREAMER_INTERFACE, PLUGIN, PLUGIN_TYPE
+from ..utils.enums import STREAMER_INTERFACE, PLUGIN, PLUGIN_TYPE, LOG_TYPE
 
 class StreamManager:
 	
@@ -17,29 +17,29 @@ class StreamManager:
 	_streamers = {}
 
 	# Private methods
-	def _start_single_streamer(self, watch:str, market:str, exchange:str, streamerId:str) -> bool:
+	def _start_single_streamer(self, market:str, exchange:str, streamer_id:str) -> bool:
 		"""
 		Start a single streamer inside a thread\n
 		"""
-		Plugin = self.app.pluginManager.get_plugin(streamerId)
+		Plugin = self.app.PluginManager.get_plugin(streamer_id)
 		if Plugin:
 			self._implement_streamer_attributes(Plugin)
+			
+			self._streamers[market][exchange] = Plugin()
+			self._streamers[market][exchange].connect_database(self.app.DatabaseManager)
+			self._streamers[market][exchange].start()
 
-			self._streamers[watch][market][exchange] = Plugin()
-			self._streamers[watch][market][exchange].set_symbol(watch)
-			self._streamers[watch][market][exchange].connect_database(self.app.databaseManager)
-			self._streamers[watch][market][exchange].start()
 			return True
 		else:
 			return False
 
-	def _implement_streamer_attributes(self,Plugin) -> None:
+	def _implement_streamer_attributes(self, Plugin) -> None:
 		"""
 		Implements base attributes to a streamer\n
 		"""
-		setattr(Plugin,PLUGIN.TYPE,PLUGIN_TYPE.STREAMER)
-		setattr(Plugin,STREAMER_INTERFACE.CONNECT_DATABASE,IDataStreaming.connect_database)
-		setattr(Plugin,STREAMER_INTERFACE.SAVE_DATA,IDataStreaming.save_data)
+		setattr(Plugin, PLUGIN.TYPE, PLUGIN_TYPE.STREAMER)
+		setattr(Plugin, STREAMER_INTERFACE.CONNECT_DATABASE, IDataStreaming.connect_database)
+		setattr(Plugin, STREAMER_INTERFACE.SAVE_DATA, IDataStreaming.save_data)
 		
 	# Public methods
 	def set_watchlist(self, watchlist:list) -> None:
@@ -64,19 +64,23 @@ class StreamManager:
 		"""
 		Starts all streamers in a separate thread\n
 		"""
-		for watch in self._watchlist:
+		for market, exchanges in self._markets.items():
+			self._streamers[market] = {}
 			
-			self._streamers[watch] = {}
-
-			for market, exchanges in self._markets.items():
-				self._streamers[watch][market] = {}
+			for exchange, streamer_id in exchanges.items():
+				try:
+					if self._start_single_streamer(market=market, exchange=exchange, streamer_id=streamer_id):
+						self.app.log(LOG_TYPE.STARTED, f"{exchange} {market} streamer")
 				
-				for exchange, streamerId in exchanges.items():
-					try:
-						if exchange not in self._streamers[watch]:
-							if self._start_single_streamer(watch=watch,market=market,exchange=exchange,streamerId=streamerId):
-								print(f'{exchange} started')
-					
-					except Exception:
-						continue
-			
+				except Exception:
+					continue
+	
+	def subscribe_to_tickers(self) -> None:
+		"""
+		Subscribe to tickers\n
+		"""
+		for market, exchanges in self._markets.items():
+			for exchange in exchanges:
+				for watch in self._watchlist:
+					self._streamers[market][exchange].subscribe(watch)
+					self.app.log(LOG_TYPE.SUBSCRIBED, f"{watch} {exchange} {market}")

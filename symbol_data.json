@@ -1,0 +1,32 @@
+{
+	"SPOT":
+	{
+		"BINANCE":
+		{
+			"BTCUSDT":"BTC_USDT"
+		},
+		"FTX":
+		{
+			"BTC/USDT":"BTC_USDT"
+		},
+		"HUOBI":
+		{
+			"BTCUSDT":"BTC_USDT"
+		}
+	},
+	"FUTURES":
+	{
+		"BINANCE":
+		{
+			"BTCUSDT":"BTC_USDT"
+		},
+		"FTX":
+		{
+			"BTC-PERP":"BTC_USDT"
+		},
+		"HUOBI":
+		{
+			"BTC-USDT":"BTC_USDT"
+		}
+	}
+}

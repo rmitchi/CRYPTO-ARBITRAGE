@@ -1,12 +1,8 @@
 {
+	"timezone":"UTC",
+	"refresh_rate":0.1,
 	"plugins":
 	[
-		"plugins.data_streamer_binance.BinanceDataStreamer",
-		"plugins.data_streamer_ftx.FTXDataStreamer",
-		"plugins.data_streamer_huobi.HuobiDataStreamer",
-		"plugins.data_streamer_binance_futures.BinanceFuturesDataStreamer",
-		"plugins.data_streamer_ftx_futures.FTXFuturesDataStreamer",
-		"plugins.data_streamer_huobi_futures.HuobiFuturesDataStreamer",
 		"plugins.strategy_arb_1.CryptoArbitrageStrategy1"
 	]
 }

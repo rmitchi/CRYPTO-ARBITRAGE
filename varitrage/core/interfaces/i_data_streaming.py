@@ -4,7 +4,7 @@
 Data streaming Interface\n
 """
 
-from ...utils.enums import KEY
+from ...utils.enums import APP_KEY
 
 class IDataStreaming:
 
@@ -15,15 +15,12 @@ class IDataStreaming:
 		"""
 		self.database = database
 
-	def set_symbol(self,symbol:str) -> None:
-		self.SYMBOL = symbol
-
-	def save_data(self,ltp: float, qty: float) -> None:
+	def save_data(self, symbol:str, ltp: float, qty: float) -> None:
 		"""
 		Saves appropriate data in database\n
 		"""
 		data = {
-			KEY.LTP:ltp,
-			KEY.QUANTITY:qty,
+			APP_KEY.LTP:ltp,
+			APP_KEY.QUANTITY:qty,
 		}
-		self.database.add_stream_data(self.SYMBOL, self.MARKET, self.EXCHANGE, data)
+		self.database.add_stream_data(symbol, self.MARKET, self.EXCHANGE, data)

@@ -24,10 +24,15 @@ def main():
 
 	# APP Config
 	with open(os.path.join(os.getcwd(),'app_config.json')) as f:
-		appConfig = json.load(f)
+		app_config = json.load(f)
 		f.close()
 
-	app = App(creds,config,appConfig=appConfig)
+	# Symbol data
+	with open(os.path.join(os.getcwd(),'symbol_data.json')) as f:
+		symbol_data = json.load(f)
+		f.close()
+
+	app = App(creds=creds, config=config, app_config=app_config, symbol_data=symbol_data)
 
 	app.start()
 
